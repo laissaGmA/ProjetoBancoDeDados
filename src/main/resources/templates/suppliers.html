@@ -2,20 +2,94 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Lista de Fornecedores</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #5a5a8e;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #e9e9f2;
+            border-radius: 6px;
+            font-size: 18px;
+        }
+        a.add-button {
+            display: inline-block;
+            background-color: #5a5a8e;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a.add-button:hover {
+            background-color: #7676a8;
+        }
+        .search-bar {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 80%;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            margin-right: 10px;
+        }
+        button.search-button {
+            padding: 10px 20px;
+            background-color: #5a5a8e;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Fornecedores</h1>
-    <ul>
-        <li th:each="supplier : ${suppliers}">
-            <span th:text="${supplier.supplier_name}"></span> - 
-            <span th:text="${supplier.supplier_country}"></span> - 
-            <span th:text="${supplier.supplier_street}"></span> - 
-            <span th:text="${supplier.supplier_complement}"></span> - 
-            <span th:text="${supplier.supplier_number}"></span> - 
-            <span th:text="${supplier.supplier_type}"></span> - 
-            <span th:text="${supplier.supplier_document}"></span>
-        </li>
-    </ul>
-    <a href="/suppliers/new">Adicionar Novo Fornecedor</a>
+    <div class="container">
+        <h1>Fornecedores</h1>
+        
+        <!-- Campo de busca -->
+        <div class="search-bar">
+            <input type="text" placeholder="Buscar fornecedor por ID ou nome..." />
+            <button class="search-button">Buscar</button>
+        </div>
+
+        <!-- Lista de fornecedores -->
+        <ul>
+            <li th:each="supplier : ${suppliers}">
+                <span th:text="${supplier.supplier_name}"></span> - 
+                <span th:text="${supplier.supplier_country}"></span> - 
+                <span th:text="${supplier.supplier_street}"></span> - 
+                <span th:text="${supplier.supplier_complement}"></span> - 
+                <span th:text="${supplier.supplier_number}"></span> - 
+                <span th:text="${supplier.supplier_type}"></span> - 
+                <span th:text="${supplier.supplier_document}"></span>
+            </li>
+        </ul>
+        
+        <!-- Botão de adicionar novo fornecedor -->
+        <a href="/suppliers/new" class="add-button">Adicionar Novo Fornecedor</a>
+    </div>
 </body>
 </html>
+

@@ -2,32 +2,82 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Adicionar Fornecedor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #5a5a8e;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="number"] {
+            padding: 10px;
+            margin-top: 5px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        button.submit-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #5a5a8e;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button.submit-button:hover {
+            background-color: #7676a8;
+        }
+    </style>
 </head>
 <body>
-    <h1>Novo Fornecedor</h1>
-    <form th:action="@{/suppliers}" th:object="${supplier}" method="post">
-        <label for="supplier_name">Nome:</label>
-        <input type="text" id="supplier_name" th:field="*{supplier_name}" required />
+    <div class="container">
+        <h1>Novo Fornecedor</h1>
+        <form th:action="@{/suppliers}" th:object="${supplier}" method="post">
+            <label for="supplier_name">Nome:</label>
+            <input type="text" id="supplier_name" th:field="*{supplier_name}" required />
 
-        <label for="supplier_country">País:</label>
-        <input type="text" id="supplier_country" th:field="*{supplier_country}" required />
+            <label for="supplier_country">País:</label>
+            <input type="text" id="supplier_country" th:field="*{supplier_country}" required />
 
-        <label for="supplier_street">Rua:</label>
-        <input type="text" id="supplier_street" th:field="*{supplier_street}" required />
+            <label for="supplier_street">Rua:</label>
+            <input type="text" id="supplier_street" th:field="*{supplier_street}" required />
 
-        <label for="supplier_complement">Complemento:</label>
-        <input type="text" id="supplier_complement" th:field="*{supplier_complement}" />
+            <label for="supplier_complement">Complemento:</label>
+            <input type="text" id="supplier_complement" th:field="*{supplier_complement}" />
 
-        <label for="supplier_number">Número:</label>
-        <input type="number" id="supplier_number" th:field="*{supplier_number}" />
+            <label for="supplier_number">Número:</label>
+            <input type="number" id="supplier_number" th:field="*{supplier_number}" />
 
-        <label for="supplier_type">Tipo:</label>
-        <input type="number" id="supplier_type" th:field="*{supplier_type}" required />
+            <label for="supplier_type">Tipo:</label>
+            <input type="number" id="supplier_type" th:field="*{supplier_type}" required />
 
-        <label for="supplier_document">Documento:</label>
-        <input type="text" id="supplier_document" th:field="*{supplier_document}" required />
+            <label for="supplier_document">Documento:</label>
+            <input type="text" id="supplier_document" th:field="*{supplier_document}" required />
 
-        <button type="submit">Salvar</button>
-    </form>
+            <button type="submit" class="submit-button">Salvar</button>
+        </form>
+    </div>
 </body>
 </html>
