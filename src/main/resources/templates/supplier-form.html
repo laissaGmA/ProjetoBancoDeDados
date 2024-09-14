@@ -6,10 +6,27 @@
 <body>
     <h1>Novo Fornecedor</h1>
     <form th:action="@{/suppliers}" th:object="${supplier}" method="post">
-        <label>Nome:</label>
-        <input type="text" th:field="*{supplier_name}" />
-        <label>País:</label>
-        <input type="text" th:field="*{supplier_country}" />
+        <label for="supplier_name">Nome:</label>
+        <input type="text" id="supplier_name" th:field="*{supplier_name}" required />
+
+        <label for="supplier_country">País:</label>
+        <input type="text" id="supplier_country" th:field="*{supplier_country}" required />
+
+        <label for="supplier_street">Rua:</label>
+        <input type="text" id="supplier_street" th:field="*{supplier_street}" required />
+
+        <label for="supplier_complement">Complemento:</label>
+        <input type="text" id="supplier_complement" th:field="*{supplier_complement}" />
+
+        <label for="supplier_number">Número:</label>
+        <input type="number" id="supplier_number" th:field="*{supplier_number}" />
+
+        <label for="supplier_type">Tipo:</label>
+        <input type="number" id="supplier_type" th:field="*{supplier_type}" required />
+
+        <label for="supplier_document">Documento:</label>
+        <input type="text" id="supplier_document" th:field="*{supplier_document}" required />
+
         <button type="submit">Salvar</button>
     </form>
 </body>

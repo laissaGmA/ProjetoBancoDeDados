@@ -8,7 +8,12 @@
     <ul>
         <li th:each="supplier : ${suppliers}">
             <span th:text="${supplier.supplier_name}"></span> - 
-            <span th:text="${supplier.supplier_country}"></span>
+            <span th:text="${supplier.supplier_country}"></span> - 
+            <span th:text="${supplier.supplier_street}"></span> - 
+            <span th:text="${supplier.supplier_complement}"></span> - 
+            <span th:text="${supplier.supplier_number}"></span> - 
+            <span th:text="${supplier.supplier_type}"></span> - 
+            <span th:text="${supplier.supplier_document}"></span>
         </li>
     </ul>
     <a href="/suppliers/new">Adicionar Novo Fornecedor</a>
