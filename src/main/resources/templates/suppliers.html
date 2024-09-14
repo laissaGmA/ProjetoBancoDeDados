@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Fornecedores</title>
+</head>
+<body>
+    <h1>Fornecedores</h1>
+    <ul>
+        <li th:each="supplier : ${suppliers}">
+            <span th:text="${supplier.supplier_name}"></span> - 
+            <span th:text="${supplier.supplier_country}"></span>
+        </li>
+    </ul>
+    <a href="/suppliers/new">Adicionar Novo Fornecedor</a>
+</body>
+</html>
