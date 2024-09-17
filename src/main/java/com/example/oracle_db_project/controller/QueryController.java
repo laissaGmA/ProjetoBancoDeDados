@@ -28,8 +28,8 @@ public class QueryController {
     private Querys querys;
 
     @GetMapping("/")
-    public String redirectToSpecificController() {
-        return "redirect:/um";
+    public String initialPage(Model model) {
+        return "initial";
     }
 
     @GetMapping("/um")

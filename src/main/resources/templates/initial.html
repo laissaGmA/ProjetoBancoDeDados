@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Projeto de Banco de Dados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e0e0e0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #4a4a4a;
+        }
+        h2, h3 {
+            text-align: center;
+            color: #666;
+        }
+        .discentes {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .discentes p, .discentes h4 {
+            text-align: center;
+            color: #333;
+        }
+        .tecnologias {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .tecnologia {
+            text-align: center;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            width: 30%;
+        }
+        .tecnologia img {
+            width: 100%;
+            height: auto;
+            max-height: 150px;
+            object-fit: contain;
+        }
+        .button-container {
+            margin-top: 40px;
+            text-align: center;
+        }
+        .button {
+            background-color: #333;
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Projeto de Banco de Dados</h1>
+    <h2>Entrega da Aplicação</h2>
+    <div class="discentes">
+        <h4>Discentes:</h4>
+        <p>Carlos Eduardo Bahia da Silva Araújo, Gustavo Ferreira Wanderley</p>
+        <p>Jefferson Alan Monteiro Martins, Laissa Maria Gama Silva</p>
+        <p>Rafaela Foerster de Menezes, Ricaelle Nascimento Teixeira Pontes</p>
+    </div>
+
+    <h3>Disciplina: Banco de Dados</h3>
+    <h3>Docente: Dimas Cassimiro do Nascimento Filho</h3>
+    <h3>Garanhuns-PE, 17 de Setembro de 2024</h3>
+
+    <div class="tecnologias">
+        <div class="tecnologia">
+            <h4>Oracle DB</h4>
+            <img src="https://m.media-amazon.com/images/I/41QodfboFdL.png" alt="Oracle DB Image"/>
+        </div>
+        <div class="tecnologia">
+            <h4>Java</h4>
+            <img src="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/181_Java_logo_logos-512.png" alt="Java Image"/>
+        </div>
+        <div class="tecnologia">
+            <h4>Spring</h4>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8i4zPog-0j0JR_yZglxPhTPZXxN2iMTQ3Dw&s" alt="Spring Image"/>
+        </div>
+    </div>
+
+    <div class="button-container">
+        <a href="/um" class="button">Visualizar Consultas</a>
+    </div>
+</div>
+</body>
+</html>
