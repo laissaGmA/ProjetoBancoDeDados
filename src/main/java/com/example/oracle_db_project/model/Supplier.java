@@ -7,8 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
-@Entity
-@Table(name = "SUPPLIER", schema = "system")
+@Entity(name = "SUPPLIER")
 public class Supplier {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "supplier_seq")
@@ -22,8 +21,6 @@ public class Supplier {
     private long supplier_number;
     private int supplier_type;
     private String supplier_document;
-
-    // Getters e Setters
 
     // Getters e Setters
     public Long getSupplierId() {
