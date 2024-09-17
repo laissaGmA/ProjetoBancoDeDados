@@ -1,16 +1,25 @@
 package com.example.oracle_db_project.service;
 
-import com.example.oracle_db_project.dtos.*;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
-import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.example.oracle_db_project.dtos.QueryCinco;
+import com.example.oracle_db_project.dtos.QueryDois;
+import com.example.oracle_db_project.dtos.QueryNove;
+import com.example.oracle_db_project.dtos.QueryOito;
+import com.example.oracle_db_project.dtos.QueryQuatro;
+import com.example.oracle_db_project.dtos.QuerySeis;
+import com.example.oracle_db_project.dtos.QuerySete;
+import com.example.oracle_db_project.dtos.QueryTres;
+import com.example.oracle_db_project.dtos.QueryUm;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 
 @Service
 public class Querys {
