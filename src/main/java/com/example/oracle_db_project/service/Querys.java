@@ -303,5 +303,69 @@ public class Querys {
         return querySeteList;
     }
 
+    public List<QueryOito> queryOito() {
+        String sql = """
+                   SELECT
+                       P.product_id AS "ID do Produto",
+                       P.sale_price AS "Preço de Tabela",
+                       P.min_sale_price AS "Preço Mínimo de Venda",
+                       MIN(OP.price) AS "Menor Preço Vendido"
+                   FROM
+                       PRODUCT P
+                   LEFT JOIN
+                       ORDER_PRODUCT OP ON P.product_id = OP.product_id
+                   LEFT JOIN
+                       DEMAND D ON OP.order_id = D.order_id
+                   WHERE
+                       EXTRACT(YEAR FROM D.order_date) IN (2023, 2024)
+                   GROUP BY
+                       P.product_id, P.sale_price, P.min_sale_price
+                   ORDER BY
+                       P.product_id
+                    """;
+        Query query = entityManager.createNativeQuery(sql);
+        List<Object[]> results = query.getResultList();
+        List<QueryOito> queryOitoList = new ArrayList<>();
+
+        for (Object[] result : results) {
+            QueryOito queryOito = new QueryOito();
+            queryOito.setId((BigDecimal) result[0]);
+            queryOito.setPrecoTabela((BigDecimal) result[1]);
+            queryOito.setPrecoMinimo((BigDecimal) result[2]);
+            queryOito.setPrecoMinimoVenda((BigDecimal) result[3]);
+            queryOitoList.add(queryOito);
+        }
+
+        return queryOitoList;
+    }
+
+    public List<QueryNove> queryNove() {
+        String sql = """
+                SELECT COUNT(*) AS Número_Clientes,
+                       ROUND((COUNT(*) / (SELECT COUNT(*)
+                                          FROM CLIENT c
+                                          JOIN DEMAND d ON d.CLIENT_ID = c.CLIENT_ID
+                                          WHERE EXTRACT(YEAR FROM d.ORDER_DATE) = 2023)) * 100, 2) AS Porcentagem
+                FROM CLIENT c
+                JOIN DEMAND d ON d.CLIENT_ID = c.CLIENT_ID
+                WHERE c.COUNTRY = 'United States'
+                  AND c.CREDIT_LIMIT > 700
+                  AND EXTRACT(YEAR FROM d.ORDER_DATE) = 2023
+                GROUP BY c.COUNTRY
+                """;
+
+        Query query = entityManager.createNativeQuery(sql);
+        List<Object[]> results = query.getResultList();
+        List<QueryNove> queryNoveList = new ArrayList<>();
+
+        for (Object[] result : results) {
+            QueryNove queryNove = new QueryNove();
+            queryNove.setNumeroClientes((BigDecimal) result[0]);
+            queryNove.setPorcentagem((BigDecimal) result[1]);
+            queryNoveList.add(queryNove);
+        }
+
+        return queryNoveList;
+    }
 
 }

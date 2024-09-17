@@ -71,4 +71,18 @@ public class QueryController {
         model.addAttribute("querySeteList", querySeteList);
         return "querySete";
     }
+
+    @GetMapping("/oito")
+    public String queryOito(Model model) {
+        List<QueryOito> queryOitoList = querys.queryOito();
+        model.addAttribute("queryOitoList", queryOitoList);
+        return "queryOito";
+    }
+
+    @GetMapping("/nove")
+    public String queryNove(Model model) {
+        List<QueryNove> queryNoveList = querys.queryNove();
+        model.addAttribute("queryNoveList", queryNoveList);
+        return "queryNove";
+    }
 }
