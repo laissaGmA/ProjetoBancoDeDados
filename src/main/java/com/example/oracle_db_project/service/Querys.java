@@ -1,15 +1,13 @@
 package com.example.oracle_db_project.service;
 
-import com.example.oracle_db_project.dtos.QueryDois;
-import com.example.oracle_db_project.dtos.QueryQuatro;
-import com.example.oracle_db_project.dtos.QueryTres;
-import com.example.oracle_db_project.dtos.QueryUm;
+import com.example.oracle_db_project.dtos.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -201,5 +199,70 @@ public class Querys {
 
         return queryQuatroList;
     }
+
+    public List<QueryCinco> queryCinco() {
+        String sql = """
+                SELECT *
+                FROM (
+                    SELECT C.NAME, C.DESCRIPTION, SUM(OP.QUANTITY * OP.PRICE) AS Faturamento_Total
+                    FROM CATEGORY C
+                    JOIN PRODUCT P ON P.FK_CATEGORY_ID = C.CATEGORY_ID
+                    JOIN ORDER_PRODUCT OP ON OP.ORDER_PRODUCT_ID = P.PRODUCT_ID
+                    JOIN DEMAND D ON D.ORDER_ID = OP.ORDER_ID
+                    WHERE D.ORDER_DATE > ADD_MONTHS(SYSDATE, -60)
+                      AND EXTRACT(MONTH FROM D.ORDER_DATE) > 6
+                      AND EXTRACT(MONTH FROM D.ORDER_DATE) <= 12
+                    GROUP BY C.NAME, C.DESCRIPTION
+                    ORDER BY Faturamento_Total DESC
+                )
+                WHERE ROWNUM <= 8
+                """;
+
+        Query query = entityManager.createNativeQuery(sql);
+
+        List<Object[]> results = query.getResultList();
+        List<QueryCinco> queryCincoList = new ArrayList<>();
+
+        for (Object[] result : results) {
+            QueryCinco queryCinco = new QueryCinco();
+            queryCinco.setNome((String) result[0]);
+            queryCinco.setDescricao((String) result[1]);
+            queryCinco.setFaturamentoTotal((BigDecimal) result[2]);
+            queryCincoList.add(queryCinco);
+        }
+
+        return queryCincoList;
+
+    }
+
+    public List<QuerySeis> querySeis() {
+        String sql = """
+                SELECT COUNT(DISTINCT d.ORDER_ID) AS NUM_PEDIDOS,
+                       ROUND((COUNT(DISTINCT d.ORDER_ID) * 100.0 / (SELECT COUNT(*) FROM DEMAND)), 2) AS PORCENTAGEM
+                FROM DEMAND d
+                JOIN ORDER_PRODUCT op ON op.ORDER_ID = d.ORDER_ID
+                JOIN CLIENT c ON c.CLIENT_ID = d.CLIENT_ID
+                WHERE d.ORDER_DATE BETWEEN TO_DATE('2023-05-01', 'YYYY-MM-DD') AND TO_DATE('2023-12-31', 'YYYY-MM-DD')
+                  AND d.ORDER_MODE = 'In-Store'
+                  AND c.COUNTRY = 'United States'
+                  AND c.CREDIT_LIMIT > 600
+                GROUP BY c.COUNTRY\s
+                HAVING SUM(op.QUANTITY * op.PRICE) > 600
+                """;
+        Query query = entityManager.createNativeQuery(sql);
+
+        List<Object[]> results = query.getResultList();
+        List<QuerySeis> querySeisList = new ArrayList<>();
+
+        for (Object[] result : results) {
+            QuerySeis querySeis = new QuerySeis();
+            querySeis.setNumPedidos((BigDecimal) result[0]);
+            querySeis.setPorcentagem((BigDecimal) result[1]);
+            querySeisList.add(querySeis);
+        }
+
+        return querySeisList;
+    }
+
 
 }

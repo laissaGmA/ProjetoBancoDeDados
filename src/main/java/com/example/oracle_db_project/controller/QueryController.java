@@ -1,10 +1,7 @@
 package com.example.oracle_db_project.controller;
 
 
-import com.example.oracle_db_project.dtos.QueryDois;
-import com.example.oracle_db_project.dtos.QueryQuatro;
-import com.example.oracle_db_project.dtos.QueryTres;
-import com.example.oracle_db_project.dtos.QueryUm;
+import com.example.oracle_db_project.dtos.*;
 import com.example.oracle_db_project.service.Querys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,5 +49,19 @@ public class QueryController {
         List<QueryQuatro> queryQuatroList = querys.queryQuatro();
         model.addAttribute("queryQuatroList", queryQuatroList);
         return "queryQuatro";
+    }
+
+    @GetMapping("/cinco")
+    public String queryCinco(Model model) {
+        List<QueryCinco> queryCincoList = querys.queryCinco();
+        model.addAttribute("queryCincoList", queryCincoList);
+        return "queryCinco";
+    }
+
+    @GetMapping("/seis")
+    public String querySeis(Model model) {
+        List<QuerySeis> querySeisList = querys.querySeis();
+        model.addAttribute("querySeisList", querySeisList);
+        return "querySeis";
     }
 }
