@@ -1,6 +1,8 @@
 package com.example.oracle_db_project.service;
 
 import com.example.oracle_db_project.dtos.QueryDois;
+import com.example.oracle_db_project.dtos.QueryQuatro;
+import com.example.oracle_db_project.dtos.QueryTres;
 import com.example.oracle_db_project.dtos.QueryUm;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -109,4 +111,95 @@ public class Querys {
 
         return queryDoisList;
     }
+
+    public List<QueryTres> queryTres() {
+        String sql = """
+                    SELECT 
+                        W.WAREHOUSE_NAME AS Nome,
+                        W.WAREHOUSE_STREET || ', ' || 
+                        W.WAREHOUSE_NUMBER || ', ' || 
+                        W.WAREHOUSE_COMPLEMENT || ', ' || 
+                        W.WAREHOUSE_CITY || ', ' || 
+                        W.WAREHOUSE_STATE || ', ' || 
+                        W.WAREHOUSE_COUNTRY AS Endereco
+                    FROM WAREHOUSE W
+                    JOIN STOCK S ON W.WAREHOUSE_ID = S.WAREHOUSE_ID
+                    WHERE W.WAREHOUSE_ID IN (
+                        SELECT W2.WAREHOUSE_ID
+                        FROM WAREHOUSE W2
+                        JOIN STOCK S2 ON W2.WAREHOUSE_ID = S2.WAREHOUSE_ID
+                        WHERE S2.PRODUCT_ID IN (
+                            SELECT PRODUCT_ID
+                            FROM PRODUCT
+                            WHERE FK_CATEGORY_ID = (
+                                SELECT CATEGORY_ID
+                                FROM CATEGORY
+                                WHERE NAME = 'Eletrodomesticos'
+                            )
+                        )
+                        GROUP BY W2.WAREHOUSE_ID
+                        HAVING SUM(S2.QUANTITY) >= 20
+                    )
+                    GROUP BY 
+                        W.WAREHOUSE_NAME,
+                        W.WAREHOUSE_STREET,
+                        W.WAREHOUSE_NUMBER,
+                        W.WAREHOUSE_COMPLEMENT,
+                        W.WAREHOUSE_CITY,
+                        W.WAREHOUSE_STATE,
+                        W.WAREHOUSE_COUNTRY
+                    HAVING SUM(S.QUANTITY) <= 1000
+                """;
+
+        Query query = entityManager.createNativeQuery(sql);
+
+        List<Object[]> results = query.getResultList();
+        List<QueryTres> queryTresList = new ArrayList<>();
+
+        for (Object[] result : results) {
+            QueryTres queryTres = new QueryTres();
+            queryTres.setNome((String) result[0]);
+            queryTres.setEndereco((String) result[1]);
+            queryTresList.add(queryTres);
+        }
+
+        return queryTresList;
+    }
+
+    public List<QueryQuatro> queryQuatro() {
+        String sql = """
+                SELECT
+                  SUM(S.QUANTITY) AS Quantidade_Total,
+                  AVG(S.QUANTITY) AS Media_Quantidade
+                FROM
+                  WAREHOUSE W
+                JOIN
+                  STOCK S ON W.WAREHOUSE_ID = S.WAREHOUSE_ID
+                JOIN
+                  PRODUCT P ON S.PRODUCT_ID = P.PRODUCT_ID
+                JOIN
+                  CATEGORY C ON P.FK_CATEGORY_ID = C.CATEGORY_ID
+                GROUP BY
+                  W.WAREHOUSE_NAME,
+                  S.STOCK_ID,
+                  C.NAME
+                HAVING
+                  SUM(S.QUANTITY) >= 60                
+                """;
+
+        Query query = entityManager.createNativeQuery(sql);
+
+        List<Object[]> results = query.getResultList();
+        List<QueryQuatro> queryQuatroList = new ArrayList<>();
+
+        for (Object[] result : results) {
+            QueryQuatro queryQuatro = new QueryQuatro();
+            queryQuatro.setQuantidadeTotal((BigDecimal) result[0]);
+            queryQuatro.setMediaQuantidade((BigDecimal) result[1]);
+            queryQuatroList.add(queryQuatro);
+        }
+
+        return queryQuatroList;
+    }
+
 }

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Armazéns</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .button-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        #atual {
+            background-color: gray;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>03 - Lista de Armazéns</h1>
+    <h3>Liste o nome e o endereço dos armazéns que possuem pelo menos 200 estoques de produtos da categoria “eletrodomésticos” e que possuem menos de 1000 estoques no total.</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Endereço</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="armazem : ${queryTresList}">
+            <td th:text="${armazem.nome}"></td>
+            <td th:text="${armazem.endereco}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="button-container">
+        <a href="/um" class="button">1</a>
+        <a href="/dois" class="button">2</a>
+        <a href="/tres" class="button" id="atual">3</a>
+        <a href="/quatro" class="button">4</a>
+        <a href="/cinco" class="button">5</a>
+        <a href="/seis" class="button">6</a>
+        <a href="/sete" class="button">7</a>
+        <a href="/oito" class="button">8</a>
+        <a href="/nove" class="button">9</a>
+        <a href="/dez" class="button">10</a>
+    </div>
+</div>
+</body>
+</html>
