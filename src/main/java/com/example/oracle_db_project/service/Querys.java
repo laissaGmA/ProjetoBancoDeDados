@@ -1,25 +1,16 @@
 package com.example.oracle_db_project.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
-import com.example.oracle_db_project.dtos.QueryCinco;
-import com.example.oracle_db_project.dtos.QueryDois;
-import com.example.oracle_db_project.dtos.QueryNove;
-import com.example.oracle_db_project.dtos.QueryOito;
-import com.example.oracle_db_project.dtos.QueryQuatro;
-import com.example.oracle_db_project.dtos.QuerySeis;
-import com.example.oracle_db_project.dtos.QuerySete;
-import com.example.oracle_db_project.dtos.QueryTres;
-import com.example.oracle_db_project.dtos.QueryUm;
-
+import com.example.oracle_db_project.dtos.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class Querys {
@@ -375,6 +366,88 @@ public class Querys {
         }
 
         return queryNoveList;
+    }
+
+    public List<QueryDez> queryDez() {
+        String sql = """
+                SELECT c.name,  e.ADDRESS_STREET || ', ' ||
+                			    e.ADDRESS_NUMBER || ', ' ||
+                			    e.ADDRESS_COMPLEMENT || ', ' ||
+                			    c.CITY || ', ' ||
+                			    c.STATE || ', ' ||
+                			    c.COUNTRY AS Endereco_Completo
+                FROM
+                	CLIENT c
+                JOIN
+                	ADDRESS_CLIENT e ON e.CLIENT_ID = c.CLIENT_ID
+                WHERE
+                	c.COUNTRY = 'United States'
+                	AND c.CLIENT_ID IN (
+                						SELECT c1.CLIENT_ID
+                						FROM
+                							CLIENT c1
+                						JOIN
+                							DEMAND d ON d.CLIENT_ID = c1.CLIENT_ID
+                						JOIN
+                							ORDER_PRODUCT op2 ON op2.ORDER_ID = d.ORDER_ID
+                						JOIN
+                							PRODUCT p ON p.PRODUCT_ID = op2.PRODUCT_ID
+                						WHERE
+                							EXTRACT(YEAR FROM d.ORDER_DATE) IN (2021, 2023, 2024)
+                						GROUP BY
+                							c1.CLIENT_ID
+                						HAVING
+                						    SUM(CASE WHEN EXTRACT(YEAR FROM d.ORDER_DATE) = 2021 THEN op2.QUANTITY * op2.PRICE ELSE 0 END) > 50000
+                						    AND SUM(CASE WHEN EXTRACT(YEAR FROM d.ORDER_DATE) = 2023 THEN op2.QUANTITY * op2.PRICE ELSE 0 END) > 50000
+                						    AND SUM(CASE WHEN EXTRACT(YEAR FROM d.ORDER_DATE) = 2024 THEN op2.QUANTITY * op2.PRICE ELSE 0 END) > 50000
+                						)
+                	AND NOT EXISTS 		(
+                						SELECT d1.ORDER_ID
+                						FROM
+                							DEMAND d1
+                						JOIN
+                							ORDER_PRODUCT op ON op.ORDER_ID = d1.ORDER_ID
+                						JOIN
+                							PRODUCT p ON p.PRODUCT_ID = op.PRODUCT_ID
+                						JOIN
+                							CATEGORY cat ON cat.CATEGORY_ID = p.FK_CATEGORY_ID
+                						WHERE
+                							d1.CLIENT_ID = c.CLIENT_ID
+                						GROUP BY
+                							d1.ORDER_ID
+                						HAVING
+                							COUNT(cat.CATEGORY_ID) != 1
+                						)
+                GROUP BY
+                	c.NAME,
+                	e.ADDRESS_STREET,
+                	e.ADDRESS_NUMBER,
+                	e.ADDRESS_COMPLEMENT,
+                	c.CITY,
+                	c.STATE,
+                	c.COUNTRY
+                ORDER BY
+                	c.NAME,
+                	e.ADDRESS_STREET,
+                	e.ADDRESS_NUMBER,
+                	e.ADDRESS_COMPLEMENT,
+                	c.CITY,
+                	c.STATE,
+                	c.COUNTRY
+                    """;
+
+        Query query = entityManager.createNativeQuery(sql);
+        List<Object[]> results = query.getResultList();
+        List<QueryDez> queryDezList = new ArrayList<>();
+
+        for (Object[] result : results) {
+            QueryDez queryDez = new QueryDez();
+            queryDez.setNome((String) result[0]);
+            queryDez.setEndereco((String) result[1]);
+            queryDezList.add(queryDez);
+        }
+
+        return queryDezList;
     }
 
 }
