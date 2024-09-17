@@ -1,15 +1,24 @@
 package com.example.oracle_db_project.controller;
 
 
-import com.example.oracle_db_project.dtos.*;
-import com.example.oracle_db_project.service.Querys;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
+import com.example.oracle_db_project.dtos.QueryCinco;
+import com.example.oracle_db_project.dtos.QueryDois;
+import com.example.oracle_db_project.dtos.QueryNove;
+import com.example.oracle_db_project.dtos.QueryOito;
+import com.example.oracle_db_project.dtos.QueryQuatro;
+import com.example.oracle_db_project.dtos.QuerySeis;
+import com.example.oracle_db_project.dtos.QuerySete;
+import com.example.oracle_db_project.dtos.QueryTres;
+import com.example.oracle_db_project.dtos.QueryUm;
+import com.example.oracle_db_project.service.Querys;
 
 @Controller
 @RequestMapping("/")
