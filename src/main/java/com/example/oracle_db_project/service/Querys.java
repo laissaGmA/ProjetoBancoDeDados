@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -246,7 +247,7 @@ public class Querys {
                   AND d.ORDER_MODE = 'In-Store'
                   AND c.COUNTRY = 'United States'
                   AND c.CREDIT_LIMIT > 600
-                GROUP BY c.COUNTRY\s
+                GROUP BY c.COUNTRY
                 HAVING SUM(op.QUANTITY * op.PRICE) > 600
                 """;
         Query query = entityManager.createNativeQuery(sql);
@@ -262,6 +263,44 @@ public class Querys {
         }
 
         return querySeisList;
+    }
+
+    public List<QuerySete> querySete() {
+        String sql = """
+                SELECT np.name, dp.description, p.warranty_date
+                FROM
+                    PRODUCT p
+                    JOIN NAME_PRODUCT np ON np.PRODUCT_ID = p.PRODUCT_ID
+                    JOIN DESCRIPTION_PRODUCT dp ON dp.PRODUCT_ID = p.PRODUCT_ID
+                    JOIN ORDER_PRODUCT op ON op.PRODUCT_ID = p.PRODUCT_ID
+                    JOIN STOCK s ON s.PRODUCT_ID = p.PRODUCT_ID
+                    JOIN WAREHOUSE w ON w.WAREHOUSE_ID = s.WAREHOUSE_ID
+                WHERE
+                    np.NAME_LANGUAGE = dp.DESCRIPTION_LANGUAGE
+                    AND p.SALE_PRICE - p.MIN_SALE_PRICE < 2000
+                GROUP BY
+                    np.NAME,
+                    dp.DESCRIPTION,
+                    p.warranty_date,
+                    p.PRODUCT_ID
+                HAVING
+                    COUNT(DISTINCT w.WAREHOUSE_ID) >= 2
+                ORDER BY
+                    p.PRODUCT_ID
+                """;
+        Query query = entityManager.createNativeQuery(sql);
+        List<Object[]> results = query.getResultList();
+        List<QuerySete> querySeteList = new ArrayList<>();
+
+        for (Object[] result : results) {
+            QuerySete querySete = new QuerySete();
+            querySete.setNome((String) result[0]);
+            querySete.setDescricao((String) result[1]);
+            querySete.setGarantia((Date) result[2]);
+            querySeteList.add(querySete);
+        }
+
+        return querySeteList;
     }
 
 
