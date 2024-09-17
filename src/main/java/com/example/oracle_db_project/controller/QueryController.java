@@ -64,4 +64,11 @@ public class QueryController {
         model.addAttribute("querySeisList", querySeisList);
         return "querySeis";
     }
+
+    @GetMapping("/sete")
+    public String querySete(Model model) {
+        List<QuerySete> querySeteList = querys.querySete();
+        model.addAttribute("querySeteList", querySeteList);
+        return "querySete";
+    }
 }
