@@ -26,16 +26,40 @@
             text-align: center;
             color: #666;
         }
-        .discentes {
+        .informacoes {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
             margin-top: 20px;
-            padding: 10px;
-            background-color: #f2f2f2;
-            border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         }
-        .discentes p, .discentes h4 {
+        .discentes, .dados-disciplina {
+            padding: 30px;
+            background-color: #f2f2f2;
+            border-radius: 30px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            width: 45%;
             text-align: center;
+        }
+        .discentes {
+            margin-right: 5px;
+        }
+        .dados-disciplina {
+            margin-left: 5px;
+        }
+        .discentes h3, .dados-disciplina h3 {
             color: #333;
+        }
+        p {
+            color: #555;
+        }
+
+        @media (max-width: 768px) {
+            .informacoes {
+                flex-direction: column;
+            }
+            .discentes, .dados-disciplina {
+                width: 100%; /* Em telas menores, cada parte ocupará 100% da largura */
+            }
         }
         .tecnologias {
             margin-top: 30px;
@@ -77,22 +101,35 @@
         .button:hover {
             background-color: #555;
         }
+        .logo {
+            height: 120px;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <h1>Projeto de Banco de Dados</h1>
     <h2>Entrega da Aplicação</h2>
-    <div class="discentes">
-        <h4>Discentes:</h4>
-        <p>Carlos Eduardo Bahia da Silva Araújo, Gustavo Ferreira Wanderley</p>
-        <p>Jefferson Alan Monteiro Martins, Laissa Maria Gama Silva</p>
-        <p>Rafaela Foerster de Menezes, Ricaelle Nascimento Teixeira Pontes</p>
-    </div>
+    <div class="informacoes">
+        <div class="discentes">
+            <h3>Discentes:</h3>
+            <p>Carlos Eduardo Bahia da Silva Araújo</p>
+            <p>Gustavo Ferreira Wanderley</p>
+            <p>Jefferson Alan Monteiro Martins</p>
+            <p>Laissa Maria Gama Silva</p>
+            <p>Rafaela Foerster de Menezes</p>
+            <p>Ricaelle Nascimento Teixeira Pontes</p>
+        </div>
 
-    <h3>Disciplina: Banco de Dados</h3>
-    <h3>Docente: Dimas Cassimiro do Nascimento Filho</h3>
-    <h3>Garanhuns-PE, 17 de Setembro de 2024</h3>
+        <div class="dados-disciplina">
+            <h3>Disciplina: Banco de Dados</h3>
+            <h3>Docente: Dimas Cassimiro do Nascimento Filho</h3>
+            <h3>Garanhuns-PE, 17 de Setembro de 2024</h3>
+
+            <img class="logo" src="https://i.ibb.co/LdVZ177/Design-sem-nome-9.png" alt="UFAPE" />
+
+        </div>
+    </div>
 
     <div class="tecnologias">
         <div class="tecnologia">
